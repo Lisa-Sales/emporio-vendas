@@ -95,7 +95,7 @@ function renderNavigation(){
 function productCard(p){
  const name=esc(p.name);const brand=esc(p.brand);const price=esc(p.price);
  const unit=p.unitLabel?`<div class="sale-unit">${esc(p.unitLabel)}</div>`:'';
- const photo=p.photo?`<img class="card-photo" src="${esc(p.photo)}" alt="${name}" loading="lazy" decoding="async" width="220" height="220">`:'';
+ const photo=p.photo?`<img class="card-photo" src="${esc(p.photo)}" alt="${name}" loading="lazy" decoding="async" width="220" height="220" onerror="this.remove()">`:'';
  return `<article class="card">${photo}<div class="cat-label">${esc(p.category)}</div><h2 class="product-name" title="${name}">${name}</h2><div class="brand-name">${brand}</div>${unit}<div class="card-bottom"><span class="price${p.pricePending?' pending':''}">${price}</span><button type="button" class="details-btn" data-open="${p.id}">Ver detalhes →</button></div></article>`;
 }
 function renderPager(total){const pages=Math.ceil(total/PAGE_SIZE),node=$('pager');node.innerHTML='';if(pages<=1)return;
@@ -118,7 +118,7 @@ function render(){
  $('pager').hidden=items.length===0;
  renderPager(items.length);
 }
-function openModal(id){const p=PRODUCTS.find(x=>x.id===id);if(!p)return;previousFocus=document.activeElement;$('detailCategory').textContent=p.category;const photo=$('detailPhoto');photo.hidden=!p.photo;if(p.photo){photo.src=p.photo;photo.alt=p.name;}else{photo.removeAttribute('src');photo.alt='';}$('detailDisclaimer').hidden=!!p.photo;$('detailTitle').textContent=p.name;$('detailBrand').textContent=p.brand;$('detailPrice').textContent=p.pricePending?'Preço por unidade/embalagem sob consulta':p.price;$('modal').hidden=false;document.body.style.overflow='hidden';$('closeModal').focus();}
+function openModal(id){const p=PRODUCTS.find(x=>x.id===id);if(!p)return;previousFocus=document.activeElement;$('detailCategory').textContent=p.category;const photo=$('detailPhoto');photo.onerror=()=>{photo.hidden=true;$('detailDisclaimer').hidden=false;};photo.hidden=!p.photo;if(p.photo){photo.src=p.photo;photo.alt=p.name;}else{photo.removeAttribute('src');photo.alt='';}$('detailDisclaimer').hidden=!!p.photo;$('detailTitle').textContent=p.name;$('detailBrand').textContent=p.brand;$('detailPrice').textContent=p.pricePending?'Preço por unidade/embalagem sob consulta':p.price;$('modal').hidden=false;document.body.style.overflow='hidden';$('closeModal').focus();}
 function closeModal(){$('modal').hidden=true;document.body.style.overflow='';if(previousFocus&&previousFocus.isConnected)previousFocus.focus();}
 function openMenu(){$('sidebar').classList.add('open');$('scrim').hidden=false;$('menuBtn').setAttribute('aria-expanded','true');}
 function closeMenu(){$('sidebar').classList.remove('open');$('scrim').hidden=true;$('menuBtn').setAttribute('aria-expanded','false');}
@@ -130,6 +130,47 @@ $('productGrid').addEventListener('click',e=>{const b=e.target.closest('[data-op
 $('closeModal').onclick=closeModal;$('modal').addEventListener('click',e=>{if(e.target===$('modal'))closeModal();});document.addEventListener('keydown',e=>{if(e.key==='Escape'){if(!$('modal').hidden)closeModal();closeMenu();}});
 $('menuBtn').onclick=()=>{$('sidebar').classList.contains('open')?closeMenu():openMenu();};$('scrim').onclick=closeMenu;
 render();
+
+/* Fotos adicionais da busca enviada pela loja. URLs externas sao provisórias:
+   fotos locais existentes nunca sao substituidas. */
+const PHOTO_ALIASES = {
+"CERA DEPILATORIA CAMOMILA 1KG":"kphpbd",
+"LOCAO ADSTRINGENTE 140ML":"1opj7lv",
+"OLEO HIDRATANTE REMOVEDOR 140ML":"1ju62bj",
+"LUVA DE VINIL COM AMIDO P VOLK CAIXA FECHADA":"wvfatj",
+"APARELHO ROLL ON RS EMBALAGEM ECOLOGICA":"83v0on",
+"LOCAO CALMANTE 140ML MANGA ROSA E LEITE DE COCO":"1g5xii8",
+"DBELLA CERA ALGAS DEO 1KG":"1enijv9",
+"DBELLA CERA CONFETE CHOCOLATE BRANCO 1KG":"10j3j07",
+"DBELLA CERA HIDRO PINK PITAYA 1 VIRGULA 3 KG":"1tke9yw",
+"DBELLA CERA PROPOLIS 800G MAIS 200G":"2q537l",
+"DBELLA CREME ALFAZULEN 50G":"53r15g",
+"DBELLA REFIL MEL DEO 100G":"1odrnej",
+"KIT LIMPEZA DE PELE RAAVI":"169fw6m",
+"RAAVI HIDRATANTE DIABETHIDRA 200G":"19e8nm",
+"RAAVI HIDRATANTE PELE NEGRA 200G":"1t465nx",
+"DBELLA CERA HIDROSSO ALGODAO DOCE 1 VIRGULA 3 KG":"antcht",
+"DBELLA CERA CONFETE LAVANDA 1KG":"x1uph7",
+"RAAVI UREIA 10 PORCENTO 450G":"p1ldra",
+"BODY MIST DESODORANTE COLONIA MISS ROSE":"1995fvh"
+};
+const PHOTO_EXCLUDED = new Set(["1p9fsfh","1lqgv05","1oy2fsg","168sbzl"]);
+const photoKey = name => Array.from(name).reduce((acc,ch)=>(acc*31+ch.codePointAt(0))>>>0,0).toString(36);
+fetch("fotos_remotas.txt")
+ .then(response=>{if(!response.ok)throw Error("Fotos indisponiveis");return response.text();})
+ .then(content=>{
+  const photos = new Map(content.trim().split(/\r?\n/).map(line=>line.split(/\s+(.+)/).slice(0,2)));
+  let added=0;
+  for(const product of PRODUCTS){
+   if(product.photo)continue;
+   const key=PHOTO_ALIASES[product.name]||photoKey(product.name);
+   if(PHOTO_EXCLUDED.has(key))continue;
+   const url=photos.get(key);
+   if(url && /^https:\/\//.test(url)){product.photo=url;added++;}
+  }
+  if(added)render();
+ })
+ .catch(()=>{/* Fotos locais e produtos sem foto continuam disponiveis. */});
 </script>
 </body>
 </html>
