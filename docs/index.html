@@ -176,6 +176,7 @@ body{background:#fff;color:var(--ink);font-size:14px}
  .detail-info .detail-actions{max-width:none}
 }
 @media(max-width:400px){.detail-media{height:min(48vh,385px)}.detail-dialog{padding:47px 14px 16px}}
+.cart-toggle-icon{display:block;flex:0 0 23px;width:23px;height:23px;color:#9c6478}
 </style>
 </head>
 <body>
@@ -191,7 +192,7 @@ body{background:#fff;color:var(--ink);font-size:14px}
   <div class="topbar">
     <button class="mobile-menu" id="menuBtn" aria-label="Abrir categorias" aria-expanded="false">☰</button>
     <div class="search-shell"><input id="search" type="search" placeholder="Buscar produto, marca ou categoria..." autocomplete="off"><button class="clear-search" id="clearSearch" aria-label="Limpar busca" hidden>×</button></div>
-    <button class="cart-toggle" type="button" id="cartToggle" aria-controls="cartDrawer" aria-haspopup="dialog" aria-label="Abrir carrinho de pedido">Carrinho <span id="cartBadge" class="cart-badge">0</span></button>
+    <button class="cart-toggle" type="button" id="cartToggle" aria-controls="cartDrawer" aria-haspopup="dialog" aria-label="Abrir simulação de compra"><svg class="cart-toggle-icon" viewBox="0 0 32 32" width="23" height="23" aria-hidden="true" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M5 12h22l-2.5 14h-17L5 12Z" stroke="currentColor" stroke-width="1.65" stroke-linejoin="round"/><path d="M11 12 15 5m6 7-4-7" stroke="currentColor" stroke-width="1.65" stroke-linecap="round"/><path d="M16 22.3c-1.3-1.05-3.9-2.9-3.9-4.7 0-1.9 2.4-2.8 3.9-.75 1.5-2.05 3.9-1.15 3.9.75 0 1.8-2.6 3.65-3.9 4.7Z" fill="currentColor"/></svg><span>Simular compra</span><span id="cartBadge" class="cart-badge">0</span></button>
   </div>
   <div class="catalog-heading"><h1>Catálogo de Produtos</h1><div class="sort-shell"><label for="sort">Ordenar:</label><select id="sort"><option value="default">Ordem do catálogo</option><option value="az">Nome de A a Z</option><option value="price-asc">Menor preço</option><option value="price-desc">Maior preço</option></select></div></div>
   <section class="cards" id="productGrid"></section>
@@ -305,7 +306,7 @@ function renderCart(){
  $('cartItems').innerHTML=html||'<p class="cart-empty">Seu carrinho está vazio.<br>Escolha produtos no catálogo para montar o pedido.</p>';
  $('cartTotal').textContent=money(total);
  $('cartBadge').textContent=String(count);
- $('cartToggle').setAttribute('aria-label',`Abrir carrinho: ${count} ${count===1?'item':'itens'}`);
+ $('cartToggle').setAttribute('aria-label',`Abrir simulação de compra: ${count} ${count===1?'item':'itens'}`);
  $('copyOrder').disabled=!lines.length;
  $('clearCart').disabled=!lines.length;
  $('cartCopyFallback').hidden=true;
