@@ -436,7 +436,7 @@ const PHOTO_ALIASES = {
 };
 const PHOTO_EXCLUDED = new Set(["1p9fsfh","1lqgv05","1oy2fsg","168sbzl"]);
 /* Estes produtos aguardam fotos autorizadas pela loja; não aplicar fotos remotas provisórias. */
-const PHOTO_PENDING_PRODUCT_IDS = new Set([23,24,25,26,27]);
+const PHOTO_PENDING_PRODUCT_IDS = new Set([23,24,25,26,27,66]);
 const photoKey = name => Array.from(name).reduce((acc,ch)=>(acc*31+ch.codePointAt(0))>>>0,0).toString(36);
 fetch("fotos_remotas.txt")
  .then(response=>{if(!response.ok)throw Error("Fotos indisponiveis");return response.text();})
