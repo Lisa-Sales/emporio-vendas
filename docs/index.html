@@ -27,18 +27,75 @@
 @media (max-width:1080px){.cards{grid-template-columns:repeat(2,minmax(0,1fr))}.app{grid-template-columns:1fr}.sidebar{position:fixed;left:0;top:0;bottom:0;width:265px;transform:translateX(-100%);transition:transform .22s ease;box-shadow:0 20px 40px rgba(60,30,40,.13)}.sidebar.open{transform:translateX(0)}.scrim{display:block;position:fixed;inset:0;background:#3a223022;z-index:7}.mobile-menu{display:inline-grid;place-items:center;border:1px solid #ead7db;background:#fff;width:42px;height:42px;border-radius:12px;color:#86596a;font-size:23px;flex:0 0 auto}.main{padding:0 16px 36px}.title-line{align-items:flex-start;flex-direction:column}.sort-shell{width:100%}.sort-shell select{flex:1;width:100%}}
 @media (max-width:720px){.cards{grid-template-columns:1fr}.stats{flex-wrap:wrap}.topbar{gap:12px}.dialog{padding:24px 18px}}
 
-/* Barra lateral: fundo branco e tipografia rosa com contraste reforçado. */
-.sidebar{background:#fff;border-right:1px solid #eddfe1}
-.side-label{color:#965269;font-size:11px;letter-spacing:.15em}
-.nav-btn{background:#fff;color:#944c65;font-size:13px;font-weight:600;line-height:1.45;border:1px solid transparent}
-.nav-btn:hover{background:#fff5f8;border-color:#edd7de}
-.nav-btn.active{background:#fff;color:#944c65;border:1px solid #bc8297;box-shadow:0 3px 12px rgba(126,70,89,.09)}
-.nav-icon{background:#fff}
-.nav-count{color:#944c65;opacity:1;font-weight:700}
-
-/* Cabeçalho compacto, sem a apresentação inicial do catálogo. */
-.topbar .sort-shell{width:auto;flex:0 0 auto}
-@media(max-width:720px){.topbar{flex-wrap:wrap}.topbar .search-shell{flex:1 1 calc(100% - 60px)}.topbar .sort-shell{width:100%;justify-content:flex-end}}
+/* Catálogo minimalista: fundo branco, detalhes rosados e leitura confortável. */
+:root{--rose:#a16d7d;--deep:#704854;--ink:#493740;--muted:#8c717c;--cream:#fff;--paper:#fff;--blush:#fcf6f7;--line:#eee2e5;--soft:#fcf8f9;--shadow:none}
+body{background:#fff;color:var(--ink);font-size:14px}
+.app{grid-template-columns:190px minmax(0,1fr)}
+.sidebar{background:#fff;border-right:1px solid #eee2e5;padding:20px 12px 28px;box-shadow:none}
+.brand{padding:4px 8px 18px;margin-bottom:20px;border-bottom:1px solid #f1e6e9}
+.brand-logo{max-width:150px}
+.side-label{color:#986777;font-size:10px;line-height:1.5;letter-spacing:.13em;font-weight:700;margin:0 8px 13px}
+.side-nav{gap:7px}
+.nav-btn{width:100%;min-height:44px;gap:0;padding:11px 13px;border:1px solid #e5cbd3;border-radius:8px;background:#fff;color:#805361;font-size:13px;font-weight:600;line-height:1.4;box-shadow:none;transition:background .15s,border-color .15s}
+.nav-btn:hover{background:#fdf7f9;border-color:#bb8d9c}
+.nav-btn.active{background:#fbf0f4;border:1px solid #b77e91;color:#754656;box-shadow:none}
+.nav-icon,.nav-count{display:none}
+.main{padding:0 20px 44px}
+.topbar{min-height:72px;padding:15px 0 12px;border-bottom:1px solid #f1e7e9;background:rgba(255,255,255,.97);gap:12px}
+.search-shell:before{left:14px;font-size:25px;color:#9d7483}
+.search-shell input{height:40px;background:#fcf7f8;border:1px solid #f0e3e7;border-radius:22px;padding:0 42px 0 42px;font-size:13px;color:#694c58}
+.search-shell input:focus{background:#fff;border-color:#c79dac}
+.catalog-heading{display:flex;align-items:flex-end;justify-content:space-between;gap:18px;padding:19px 0 18px}
+.catalog-heading h1{font:normal clamp(29px,3vw,38px)/1.12 Georgia,'Times New Roman',serif;letter-spacing:-.03em;color:var(--deep);margin:0}
+.sort-shell{display:flex;gap:9px;align-items:center;flex:0 0 auto}
+.sort-shell label{font-size:12px;color:#8c6776;white-space:nowrap}
+.sort-shell select{width:auto;min-width:154px;background:#fff;border:1px solid #ebdce1;border-radius:22px;color:#754c5a;padding:9px 13px;font-size:12px}
+.cards{grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.card{min-width:0;min-height:330px;background:#fff;border:1px solid #f0e3e7;border-radius:12px;padding:13px 15px 15px;box-shadow:none;transition:border-color .16s}
+.card:hover{border-color:#d8bac5}
+.photo-frame{height:168px;width:100%;display:flex;align-items:center;justify-content:center;margin:0 0 11px;overflow:hidden;background:#fff}
+.card-photo{width:100%;height:100%;max-width:100%;max-height:100%;object-fit:contain;object-position:center;background:#fff;border-radius:0;margin:0}
+.cat-label{color:#af798c;font-size:10px;letter-spacing:.1em;margin-bottom:6px}
+.product-name{font-size:13px;font-weight:700;line-height:1.4;min-height:37px;color:#44323c}
+.brand-name{font-size:12px;margin:6px 0 0;min-height:16px;color:#987383}
+.sale-unit{font-size:11px;color:#916e7d}
+.card-bottom{padding-top:11px;gap:10px}
+.price{font-size:18px;color:#934c68;font-weight:700}
+.price.pending{font-size:12px}
+.details-btn{background:#a16d7d;color:#fff;border-radius:22px;box-shadow:none;padding:9px 13px;font-size:11px;font-weight:600}
+.details-btn:hover{background:#885468}
+.page-btn{box-shadow:none;border-color:#ead7de}
+.page-btn.active{background:#a16d7d;border-color:#a16d7d}
+.dialog{border:1px solid #f0e3e7;box-shadow:0 14px 50px #5c344022}
+@media (min-width:781px) and (max-width:1080px){
+ .app{grid-template-columns:175px minmax(0,1fr)}
+ .sidebar{position:sticky;left:auto;top:0;bottom:auto;width:auto;height:100vh;transform:none!important;transition:none;box-shadow:none}
+ .scrim{display:none}
+ .mobile-menu{display:none}
+ .main{padding:0 18px 38px}
+ .cards{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media(max-width:780px){
+ .app{grid-template-columns:1fr}
+ .sidebar{width:265px;background:#fff}
+ .main{padding:0 14px 34px}
+ .topbar{min-height:66px;flex-wrap:nowrap}
+ .topbar .search-shell{flex:1;min-width:0}
+ .catalog-heading{align-items:flex-start;flex-wrap:wrap;padding:17px 0 14px}
+ .catalog-heading h1{font-size:30px}
+ .sort-shell{width:auto;justify-content:flex-start}
+ .sort-shell select{flex:0 1 auto}
+ .cards{grid-template-columns:repeat(2,minmax(0,1fr))}
+ .card{min-height:300px;padding:12px}
+ .photo-frame{height:142px}
+}
+@media(max-width:600px){
+ .cards{grid-template-columns:1fr}
+ .card{min-height:310px;padding:14px 16px}
+ .photo-frame{height:175px}
+ .catalog-heading h1{font-size:29px}
+ .sort-shell{width:100%;justify-content:flex-end}
+}
 </style>
 </head>
 <body>
@@ -54,12 +111,11 @@
   <div class="topbar">
     <button class="mobile-menu" id="menuBtn" aria-label="Abrir categorias" aria-expanded="false">☰</button>
     <div class="search-shell"><input id="search" type="search" placeholder="Buscar produto, marca ou categoria..." autocomplete="off"><button class="clear-search" id="clearSearch" aria-label="Limpar busca" hidden>×</button></div>
-    <div class="sort-shell"><label for="sort">Ordenar:</label><select id="sort"><option value="default">Ordem do catálogo</option><option value="az">Nome de A a Z</option><option value="price-asc">Menor preço</option><option value="price-desc">Maior preço</option></select></div>
   </div>
+  <div class="catalog-heading"><h1>Catálogo de Produtos</h1><div class="sort-shell"><label for="sort">Ordenar:</label><select id="sort"><option value="default">Ordem do catálogo</option><option value="az">Nome de A a Z</option><option value="price-asc">Menor preço</option><option value="price-desc">Maior preço</option></select></div></div>
   <section class="cards" id="productGrid"></section>
   <div class="empty" id="empty" hidden><div><strong>Nenhum produto encontrado</strong><p>Tente ajustar a busca, escolher outra categoria ou limpar os filtros.</p><button class="details-btn" id="resetFilters" type="button">Limpar filtros</button></div></div>
   <nav class="pager" id="pager" aria-label="Paginação"></nav>
-  <div class="footnote">Catálogo digital para uso no tablet • preços sujeitos a confirmação.</div>
 </main>
 </div>
 <div class="scrim" id="scrim" hidden></div>
@@ -99,7 +155,7 @@ function productCard(p){
  const name=esc(p.name);const brand=esc(p.brand);const price=esc(p.price);
  const unit=p.unitLabel?`<div class="sale-unit">${esc(p.unitLabel)}</div>`:'';
  const photo=p.photo?`<img class="card-photo" src="${esc(p.photo)}" alt="${name}" loading="lazy" decoding="async" width="220" height="220" onerror="this.remove()">`:'';
- return `<article class="card">${photo}<div class="cat-label">${esc(p.category)}</div><h2 class="product-name" title="${name}">${name}</h2><div class="brand-name">${brand}</div>${unit}<div class="card-bottom"><span class="price${p.pricePending?' pending':''}">${price}</span><button type="button" class="details-btn" data-open="${p.id}">Ver detalhes →</button></div></article>`;
+ return `<article class="card"><div class="photo-frame">${photo}</div><div class="cat-label">${esc(p.category)}</div><h2 class="product-name" title="${name}">${name}</h2><div class="brand-name">${brand}</div>${unit}<div class="card-bottom"><span class="price${p.pricePending?' pending':''}">${price}</span><button type="button" class="details-btn" data-open="${p.id}">Ver detalhes →</button></div></article>`;
 }
 function renderPager(total){const pages=Math.ceil(total/PAGE_SIZE),node=$('pager');node.innerHTML='';if(pages<=1)return;
  const prev=document.createElement('button');prev.className='page-btn arrow';prev.textContent='‹';prev.disabled=state.page===1;prev.setAttribute('aria-label','Página anterior');prev.onclick=()=>goPage(state.page-1);node.appendChild(prev);
