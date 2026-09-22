@@ -177,6 +177,20 @@ body{background:#fff;color:var(--ink);font-size:14px}
 }
 @media(max-width:400px){.detail-media{height:min(48vh,385px)}.detail-dialog{padding:47px 14px 16px}}
 .cart-toggle-icon{display:block;flex:0 0 23px;width:23px;height:23px;color:#9c6478}
+
+/* Corrige o texto e o botão Remover cortados no painel de simulação de compra. */
+.cart-drawer{min-width:0;max-width:100vw;overflow:hidden}
+.cart-list{min-width:0;min-height:0;overflow-x:hidden;overflow-y:auto;overscroll-behavior:contain}
+.cart-row{min-width:0;width:100%;grid-template-columns:minmax(0,1fr) max-content;column-gap:10px}
+.cart-row>div:first-child{min-width:0;overflow-wrap:anywhere}
+.cart-row strong,.cart-meta{overflow-wrap:anywhere;word-break:normal}
+.cart-line-total{align-self:start;max-width:110px;font-size:13px;text-align:right;white-space:normal;overflow-wrap:normal}
+.cart-qty{grid-column:1/-1;display:flex;align-items:center;gap:9px;width:100%;min-width:0}
+.cart-qty button:not(.cart-remove){flex:0 0 30px;width:30px;height:30px;display:inline-grid;place-items:center;padding:0}
+.cart-qty output{flex:0 0 20px}
+.cart-qty button.cart-remove{flex:0 0 auto;display:inline-block;width:auto;height:auto;min-width:0;margin-left:auto;padding:7px 2px;border:0;border-radius:0;background:transparent;color:#955f72;font-size:12px;line-height:1.4;text-align:right;white-space:nowrap;text-decoration:underline}
+.cart-summary{min-width:0;overflow-x:hidden}
+@media(max-width:400px){.cart-row{column-gap:7px}.cart-qty{gap:7px}.cart-qty button.cart-remove{font-size:12px}}
 </style>
 </head>
 <body>
