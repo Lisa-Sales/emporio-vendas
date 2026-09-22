@@ -35,6 +35,10 @@
 .nav-btn.active{background:#fff;color:#944c65;border:1px solid #bc8297;box-shadow:0 3px 12px rgba(126,70,89,.09)}
 .nav-icon{background:#fff}
 .nav-count{color:#944c65;opacity:1;font-weight:700}
+
+/* Cabeçalho compacto, sem a apresentação inicial do catálogo. */
+.topbar .sort-shell{width:auto;flex:0 0 auto}
+@media(max-width:720px){.topbar{flex-wrap:wrap}.topbar .search-shell{flex:1 1 calc(100% - 60px)}.topbar .sort-shell{width:100%;justify-content:flex-end}}
 </style>
 </head>
 <body>
@@ -50,18 +54,8 @@
   <div class="topbar">
     <button class="mobile-menu" id="menuBtn" aria-label="Abrir categorias" aria-expanded="false">☰</button>
     <div class="search-shell"><input id="search" type="search" placeholder="Buscar produto, marca ou categoria..." autocomplete="off"><button class="clear-search" id="clearSearch" aria-label="Limpar busca" hidden>×</button></div>
+    <div class="sort-shell"><label for="sort">Ordenar:</label><select id="sort"><option value="default">Ordem do catálogo</option><option value="az">Nome de A a Z</option><option value="price-asc">Menor preço</option><option value="price-desc">Maior preço</option></select></div>
   </div>
-  <section class="hero">
-    <div class="title-line">
-      <div class="title-wrap">
-        <h1 id="mainTitle">Catálogo</h1>
-        <p id="subtitle">Escolha seu próximo momento de autocuidado.</p>
-      </div>
-      <div class="sort-shell"><label for="sort">Ordenar:</label><select id="sort"><option value="default">Ordem do catálogo</option><option value="az">Nome de A a Z</option><option value="price-asc">Menor preço</option><option value="price-desc">Maior preço</option></select></div>
-    </div>
-    <div class="stats"><span id="resultsCount">0 produtos encontrados</span><span>•</span><span><strong>9 produtos por página</strong></span><span>•</span><span>Prévia digital para tablet</span></div>
-  </section>
-  <div class="intro-banner"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="10" stroke="#b56f84" stroke-width="1.6"/><path d="M12 7.5v.2M12 10.8v5" stroke="#b56f84" stroke-width="1.8" stroke-linecap="round"/></svg><div><strong>Prévia inicial sem fotos dos produtos.</strong> Nomes e preços vêm do catálogo da loja.</div></div>
   <section class="cards" id="productGrid"></section>
   <div class="empty" id="empty" hidden><div><strong>Nenhum produto encontrado</strong><p>Tente ajustar a busca, escolher outra categoria ou limpar os filtros.</p><button class="details-btn" id="resetFilters" type="button">Limpar filtros</button></div></div>
   <nav class="pager" id="pager" aria-label="Paginação"></nav>
@@ -114,13 +108,10 @@ function renderPager(total){const pages=Math.ceil(total/PAGE_SIZE),node=$('pager
  const next=document.createElement('button');next.className='page-btn arrow';next.textContent='›';next.disabled=state.page===pages;next.setAttribute('aria-label','Próxima página');next.onclick=()=>goPage(state.page+1);node.appendChild(next);
  const info=document.createElement('span');info.className='page-label';info.textContent=`Página ${state.page} de ${pages}`;node.appendChild(info);
 }
-function goPage(n){state.page=n;render();document.querySelector('.hero').scrollIntoView({behavior:'smooth',block:'start'});}
+function goPage(n){state.page=n;render();document.querySelector('#productGrid').scrollIntoView({behavior:'smooth',block:'start'});}
 function render(){
  renderNavigation();const info=CATEGORIES.find(c=>c.name===state.category);
- $('mainTitle').textContent='Seu catálogo de beleza';
- $('subtitle').textContent=info?.subtitle||'Escolha seu próximo momento de autocuidado.';
  const items=currentProducts();const pages=Math.max(1,Math.ceil(items.length/PAGE_SIZE));state.page=Math.max(1,Math.min(state.page,pages));
- $('resultsCount').textContent=`${items.length} ${items.length===1?'produto encontrado':'produtos encontrados'}`;
  $('clearSearch').hidden=!state.query;
  $('productGrid').innerHTML=items.slice((state.page-1)*PAGE_SIZE,state.page*PAGE_SIZE).map(productCard).join('');
  $('empty').hidden=items.length!==0;
