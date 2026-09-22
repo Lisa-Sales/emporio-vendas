@@ -96,6 +96,13 @@ body{background:#fff;color:var(--ink);font-size:14px}
  .catalog-heading h1{font-size:29px}
  .sort-shell{width:100%;justify-content:flex-end}
 }
+
+/* Categorias sem numeração e sem contagem, separadas por linhas sutis. */
+.side-nav{gap:0}
+.nav-btn{display:block;min-height:47px;padding:13px 9px;width:100%;border:0;border-bottom:1px solid #f1e4e8;border-radius:0;background:#fff;box-shadow:none;color:#8a5266;text-align:left;font-size:13px;font-weight:600;line-height:1.35}
+.nav-btn:hover{background:#fdf9fa;border-color:#e7cdd5}
+.nav-btn.active{background:#fff8fa;color:#7f4259;border:0;border-bottom:1px solid #dfbdc8;box-shadow:none}
+.nav-btn:focus-visible{outline:2px solid #ba8496;outline-offset:-2px}
 </style>
 </head>
 <body>
@@ -149,7 +156,7 @@ function setCategory(cat){state.category=cat;state.page=1;closeMenu();render();w
 function renderNavigation(){
  const nav=$('categoryNav');nav.innerHTML='';
  const all=[{name:'Todos os produtos',count:PRODUCTS.length},...CATEGORIES];
- all.forEach((cat,i)=>{const b=document.createElement('button');b.type='button';b.className='nav-btn'+(state.category===cat.name?' active':'');b.innerHTML=`<span class="nav-icon">${i===0?'∞':String(i).padStart(2,'0')}</span><span>${esc(cat.name)}</span><span class="nav-count">${cat.count}</span>`;b.setAttribute('aria-current',state.category===cat.name?'page':'false');b.addEventListener('click',()=>setCategory(cat.name));nav.appendChild(b);});
+ all.forEach(cat=>{const b=document.createElement('button');b.type='button';b.className='nav-btn'+(state.category===cat.name?' active':'');b.textContent=cat.name;b.setAttribute('aria-current',state.category===cat.name?'page':'false');b.addEventListener('click',()=>setCategory(cat.name));nav.appendChild(b);});
 }
 function productCard(p){
  const name=esc(p.name);const brand=esc(p.brand);const price=esc(p.price);
